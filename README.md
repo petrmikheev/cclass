@@ -3,7 +3,7 @@
 It is an implementation of convolutional neural networks developed from scratch.
 It was developed to gain experience in neural networks and CUDA.
 
-##Format of network structure
+## Format of a network structure
 
 Network structure should be specified in a text format.
 Each line corresponds to one layer.
@@ -26,12 +26,12 @@ RELU 0.1
 FULL 10 0.01
 ```
 
-##Input data format
+## Input data format
 
 Input data should be in LMDB database in the same format as for caffe (i.e. packed with Protocol buffers).
 So it is recommended to download and use caffe examples.
 
-##Building
+## Building
 
 Requirements:
 
@@ -46,7 +46,7 @@ cd src
 make
 ```
 
-##Content
+## Content
 
 * src - sources
 * cclass - the main binary
@@ -55,7 +55,7 @@ make
 * net.bin - a trained network for MNIST
 * test.bmp - an example image
 
-##Options
+## Options
 
 ```
 Using: cclass [-cpu/-gpu] [-batch <NUM>] [-step <NUM>] [-moment <NUM>] [-iter <NUM>] [-seed <NUM>] train <net> <LMDB_DIR>
@@ -65,7 +65,7 @@ Using: cclass [-cpu/-gpu] [-batch <NUM>] [-step <NUM>] [-moment <NUM>] [-iter <N
        view_lmdb <LMDB_DIR> <id> <output>.bmp - extract the image with number <id> from the LMDB database
 ```
 
-##Examples
+## Examples
 
 Test the trained network on a single image: `echo test.bmp | ./cclass run net`
 
