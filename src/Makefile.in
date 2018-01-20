@@ -1,0 +1,48 @@
+all: view_lmdb cclass
+	cp view_lmdb cclass ../
+
+CXXFLAGS= -fopenmp -g -O3 -funroll-loops
+NVCC_FLAGS= -Wno-deprecated-gpu-targets -g -O3 -Xcompiler -fopenmp -Xcompiler -funroll-loops -DUSE_CUDA
+
+ifeq (@cuda@, yes)
+    COMPILE=nvcc ${NVCC_FLAGS}
+else
+    COMPILE=g++ ${CXXFLAGS}
+endif
+
+view_lmdb: view_lmdb.o BMP.o lmdb_reader.o
+	g++  ${CXXFLAGS} -o view_lmdb view_lmdb.o BMP.o lmdb_reader.o -llmdb
+
+cclass: main.o BMP.o lmdb_reader.o data.o input_layer.o output_layer.o fully_connected_layer.o convolution_layer.o layer.o
+	${COMPILE} -o cclass main.o BMP.o lmdb_reader.o data.o input_layer.o output_layer.o layer.o fully_connected_layer.o convolution_layer.o -llmdb
+
+view_lmdb.o: view_lmdb.cpp lmdb_reader.h
+
+BMP.o: BMP.cpp BMP.h
+
+lmdb_reader.o: lmdb_reader.cpp lmdb_reader.h
+
+main.o: main.cpp cclass.h
+
+data.o: data.cpp cclass.h
+	${COMPILE} -c data.cpp
+
+input_layer.o: input_layer.cpp cclass.h
+	${COMPILE} -c input_layer.cpp
+
+output_layer.o: output_layer.cpp cclass.h
+	${COMPILE} -c output_layer.cpp
+
+ifeq (@cuda@, yes)
+%.o: %.cu cclass.h
+	${COMPILE} -c -o $@ $<
+else
+%.o: %.cu cclass.h
+	ln -s $< $<.cpp || true
+	${COMPILE} -c -o $@ $<.cpp
+	rm $<.cpp
+endif
+
+clean:
+	rm -f *.o view_lmdb cclass
+

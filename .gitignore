@@ -1,0 +1,8 @@
+*~
+*.o
+cclass
+view_lmdb
+mnist_*_lmdb
+autom4te.cache
+config.log
+config.status

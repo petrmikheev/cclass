@@ -1,0 +1,5 @@
+AC_INIT(cclass, 0.1)
+AC_CHECK_PROG(cuda,nvcc,yes,no)
+AC_SUBST(cuda)
+AC_OUTPUT(Makefile)
+
