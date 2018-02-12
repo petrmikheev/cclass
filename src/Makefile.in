@@ -23,6 +23,7 @@ BMP.o: BMP.cpp BMP.h
 lmdb_reader.o: lmdb_reader.cpp lmdb_reader.h
 
 main.o: main.cpp cclass.h
+	${COMPILE} -c main.cpp
 
 data.o: data.cpp cclass.h
 	${COMPILE} -c data.cpp

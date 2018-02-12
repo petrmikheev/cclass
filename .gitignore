@@ -6,3 +6,4 @@ mnist_*_lmdb
 autom4te.cache
 config.log
 config.status
+src/Makefile
